@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock paper scissor game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="title">Rock Paper Scissor</div>
+    <div id="images">
+        <img id="rock" class="image-class" src="./images/rock.png" alt="rock">
+        <img id="paper" class="image-class" src="./images/paper.png" alt="paper">
+        <img id="scissor" class="image-class" src="./images/scissor.png" alt="scissor">
+    </div>
+    <div id="score-box">
+        <div id="player-one">
+            <div id="score1" ><p>0</p></div>
+            <div id="name1"><p>Player 1</p></div>
+        </div>
+        <div id="player-two">
+            <div id="score2"><p>0</p></div>
+            <div id="name2"><p>Player 2</p></div>
+        </div>
+    </div>
+    <div id="result-box">
+        <p id="result">Let's Play</p>
+    </div>
+    <script src="practice.js"></script>
+    
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rock Paper Scissors — Win Popup Example</title>
+<style>
+  :root{
+    --bg: #0f172a;
+    --card: #0b1220;
+    --accent: #6ee7b7;
+    --danger: #ff6b6b;
+    --glass: rgba(255,255,255,0.04);
+  }
+
+  /* Basic page layout */
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+  body{
+    background: linear-gradient(180deg,#071126 0%, #071a2b 100%);
+    color: #e6eef8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px;
+  }
+  .app {
+    width: 100%;
+    max-width:720px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px;
+    padding:24px;
+    box-shadow: 0 8px 30px rgba(3,6,23,0.6);
+  }
+
+  h1{margin:0 0 12px 0;font-size:22px}
+  p.lead{margin:0 0 18px 0;color:#9fb3d6}
+
+  /* Buttons row */
+  .choices{display:flex;gap:12px;justify-content:center;margin-bottom:18px}
+  .choice{
+    background:var(--glass);
+    border:1px solid rgba(255,255,255,0.04);
+    padding:14px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    min-width:110px;
+    text-align:center;
+    transition:transform .12s ease, box-shadow .12s;
+    user-select:none;
+  }
+  .choice:hover{transform:translateY(-4px); box-shadow: 0 6px 20px rgba(12,20,40,0.5);}
+  .choice:active{transform:translateY(-1px);}
+
+  /* Score and result */
+  .status{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .score{font-size:18px}
+  .result{font-weight:700}
+
+  /* Modal overlay */
+  .overlay{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(2,6,23,0.55);
+    z-index:200;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .18s ease;
+  }
+  .overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  /* Modal card */
+  .modal{
+    background: linear-gradient(180deg, #081224, #071a2a);
+    border-radius:14px;
+    padding:22px;
+    width: min(92%, 420px);
+    box-shadow: 0 18px 60px rgba(2,6,23,0.7), 0 6px 18px rgba(12,20,40,0.5);
+    transform: translateY(18px) scale(.98);
+    opacity:0;
+    transition:transform .28s cubic-bezier(.2,.9,.3,1), opacity .18s;
+  }
+  .overlay.show .modal{
+    transform: translateY(0) scale(1);
+    opacity:1;
+  }
+
+  .modal h2{margin:0 0 8px 0;font-size:20px}
+  .modal p{margin:0 0 14px 0;color:#bcd1ea}
+
+  .modal .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+  .btn{
+    padding:8px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer;
+  }
+
+  .btn.positive{background:linear-gradient(90deg,var(--accent),#38bdf8);color:#012;box-shadow:0 6px 18px rgba(110,231,183,0.15)}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#cfe7ff}
+
+  /* Close (x) */
+  .modal .close{
+    position:absolute;
+    right:14px;
+    top:10px;
+    background:transparent;
+    border:none;
+    color:#9fb3d6;
+    font-size:18px;
+    cursor:pointer;
+  }
+
+  /* Win animation badge */
+  .badge {
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:999px;
+    background: linear-gradient(90deg,#9ef6d1,#6ee7b7);
+    color:#032;
+    font-weight:900;
+    letter-spacing:.6px;
+    transform:scale(.96);
+    animation:pop .6s cubic-bezier(.2,.9,.3,1);
+    box-shadow: 0 12px 30px rgba(30,200,150,0.12);
+  }
+  @keyframes pop{
+    0%{transform:scale(.6);opacity:0}
+    60%{transform:scale(1.08);opacity:1}
+    100%{transform:scale(1)}
+  }
+
+  /* Small responsive */
+  @media (max-width:420px){
+    .choices{flex-direction:column}
+    .choice{min-width:100%}
+  }
+</style>
+</head>
+<body>
+  <main class="app" id="app">
+    <h1 id="title">Rock — Paper — Scissors</h1>
+    <p class="lead">Click one to play. If you <strong>win</strong>, a victory popup appears!</p>
+
+    <div class="status">
+      <div class="score">You: <span id="playerScore">0</span> — CPU: <span id="cpuScore">0</span></div>
+      <div class="result" id="resultText">Make your move</div>
+    </div>
+
+    <div class="choices" role="group" aria-label="Choose your move">
+      <button class="choice" data-move="rock">🪨 Rock</button>
+      <button class="choice" data-move="paper">📄 Paper</button>
+      <button class="choice" data-move="scissors">✂️ Scissors</button>
+    </div>
+
+    <p style="margin-top:12px;color:#9fb3d6">Tip: try clicking fast — modal auto-dismisses after 4s.</p>
+  </main>
+
+  < Modal overlay 
+  <div id="winOverlay" class="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="winTitle" aria-describedby="winMsg">
+      <button class="close" id="modalClose" aria-label="Close">✕</button>
+      <h2 id="winTitle"><span class="badge">Victory!</span></h2>
+      <p id="winMsg">You beat the computer. Nice move! 🎉</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div><strong>Your move:</strong> <span id="modalUserMove">—</span></div>
+        <div><strong>CPU move:</strong> <span id="modalCpuMove">—</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn ghost" id="modalCloseBtn">Close</button>
+        <button class="btn positive" id="modalPlayAgain">Play again</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Simple RPS logic with modal on win
+  const choices = document.querySelectorAll('.choice');
+  const playerScoreEl = document.getElementById('playerScore');
+  const cpuScoreEl = document.getElementById('cpuScore');
+  const resultText = document.getElementById('resultText');
+
+  let playerScore = 0;
+  let cpuScore = 0;
+
+  const overlay = document.getElementById('winOverlay');
+  const modalUserMove = document.getElementById('modalUserMove');
+  const modalCpuMove = document.getElementById('modalCpuMove');
+  const modalClose = document.getElementById('modalClose');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalPlayAgain = document.getElementById('modalPlayAgain');
+
+  let autoCloseTimer = null;
+
+  function cpuChoice(){
+    const arr = ['rock','paper','scissors'];
+    return arr[Math.floor(Math.random()*3)];
+  }
+
+  function determineResult(player, cpu){
+    if(player === cpu) return 'tie';
+    if(
+      (player === 'rock' && cpu === 'scissors') ||
+      (player === 'paper' && cpu === 'rock') ||
+      (player === 'scissors' && cpu === 'paper')
+    ) return 'win';
+    return 'lose';
+  }
+
+  function showWinModal(playerMove, cpuMove){
+    // put text inside modal
+    modalUserMove.textContent = capitalize(playerMove);
+    modalCpuMove.textContent = capitalize(cpuMove);
+
+    // show overlay
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden','false');
+
+    // set focus for accessibility
+    modalPlayAgain.focus();
+
+    // auto close after 4 seconds
+    clearTimeout(autoCloseTimer);
+    autoCloseTimer = setTimeout(hideModal, 4000);
+  }
+
+  function hideModal(){
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden','true');
+    clearTimeout(autoCloseTimer);
+  }
+
+  function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  // wire buttons
+  choices.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const playerMove = btn.dataset.move;
+      const cpuMove = cpuChoice();
+      const res = determineResult(playerMove, cpuMove);
+
+      if(res === 'win'){
+        playerScore++;
+        resultText.textContent = `You win! ${capitalize(playerMove)} beats ${capitalize(cpuMove)}`;
+        // show modal on user win
+        showWinModal(playerMove, cpuMove);
+      } else if(res === 'lose'){
+        cpuScore++;
+        resultText.textContent = `You lose… ${capitalize(cpuMove)} beats ${capitalize(playerMove)}`;
+      } else {
+        resultText.textContent = "It's a tie!";
+      }
+
+      // update scoreboard
+      playerScoreEl.textContent = playerScore;
+      cpuScoreEl.textContent = cpuScore;
+    });
+  });
+
+  // Modal controls
+  modalClose.addEventListener('click', hideModal);
+  modalCloseBtn.addEventListener('click', hideModal);
+  modalPlayAgain.addEventListener('click', () => {
+    hideModal();
+    // optional: focus first choice for quick play
+    choices[0].focus();
+  });
+
+  // close when clicking outside modal card
+  overlay.addEventListener('click', (e) => {
+    if(e.target === overlay) hideModal();
+  });
+
+  // close with Escape
+  window.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && overlay.classList.contains('show')) hideModal();
+  });
+</script>
+</body>
+</html> -->
